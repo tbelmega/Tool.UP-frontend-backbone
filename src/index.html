@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="de">
+<head>
+    <meta charset="utf-8">
+    <title>Tool.UP</title>
+    <link type="text/css" rel="stylesheet" href="css/main.css">
+
+    <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="libs/underscore-min.js"></script>
+    <script src="libs/backbone-min.js"></script>
+    <script src="js/main.js"></script>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><img src=img/uni-logo.png/></li>
+        <li class="selected-menu-item"><a href='index.html'>Startseite</a></li>
+        <li>
+
+            <div class="category-dropdown" onclick="showCategoryDropDown()">
+                Kategorien
+                <div id="category-dropdown-content" class="dropdown-content">
+                </div>
+            </div>
+
+        </li>
+        <li><a href='feature-lookup.html'>Feature-Suche</a></li>
+        <li><a href='#'>Impressum</a></li>
+    </ul>
+    <div class="full-text-search">
+        <form method="get" action="search-result.html" id="live-search">
+            <input type="text" id="searchStringInput" name="searchString" placeholder="Suche...">
+            <input type="submit" value="Suche">
+        </form>
+    </div>
+</nav>
+
+
+<div id="main-content">
+    <h1>Tool.UP</h1>
+    <p>Zeit sparen, Frust vermeiden? Mit den richtigen Software-Werkzeugen können Sie Forschung und Lehre
+        noch effizienter organisieren. Tool.UP hilft Ihnen, die passenden Werkzeuge für Ihren Bedarf zu finden.</p>
+    <h2>Legen Sie los!</h2>
+    <p>Nutzen Sie eine der folgenden Möglichkeiten, um sich über verfügbare Software zu informieren:</p>
+    <ul id="getting-started" type="square">
+        <li>Wählen Sie eine Kategorie aus dem Menü,</li>
+        <li>suchen Sie Software mit einer Kombination von Features,</li>
+        <li>nutzen Sie die Volltextsuche, oder</li>
+        <li>stöbern Sie durch die aufgeführten Oberkategorien.</li>
+    </ul>
+    <br/>
+    <div class="business-object-list category-list"></div>
+</div>
+
+<script>
+    $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+        options.url = 'http://localhost:8080/toolup' + options.url;
+        options.crossDomain = true;
+    })
+
+    var Categories = Backbone.Collection.extend({
+        url: '/category'
+    })
+
+    var Category = Backbone.Model.extend({
+        urlRoot: '/category'
+    });
+
+    var CategoryList = Backbone.View.extend({
+        el: '.category-list',
+        render: function() {
+            var scope = this;
+            var categories = new Categories();
+            categories.fetch({ //GET all the categories //TODO get top level categories
+                success: function(categories) {
+                    scope.$el.empty();
+                    for (var item of categories.models) {
+                        console.log(item);
+                        var content = '<li>' + createLinkBoxForBO('category', item) + '</li>';
+                        var list = $('<ul />').html(content);
+                        scope.$el.append(list);
+                    }
+                }
+            })
+        }
+    });
+
+    var CategoryView = Backbone.View.extend({
+        el: '#main-content',
+        render: function (id) {
+            var scope = this;
+            var category = new Category({id: id});
+            category.fetch({
+                success: function (category) {
+                    scope.$el.empty();
+                    //TODO
+                }
+            });
+        }
+    })
+
+    var Router = Backbone.Router.extend({
+        routes: {
+            'category/:id': 'categoryDetails',
+            '': 'home'
+        }
+    });
+
+    var categoryList = new  CategoryList();
+    var categoryView = new CategoryView();
+
+    var router = new Router();
+    router.on('route:home', function() {
+        categoryList.render();
+    });
+    router.on('route:categoryDetails', function(id) {
+        categoryView.render(id);
+    })
+
+    Backbone.history.start();
+</script>
+
+
+
+
+</body>
+
+
+</html>
