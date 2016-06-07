@@ -11,13 +11,28 @@
     <script src="js/util.js"></script>
 
     <!-- BEGIN: Underscore Template Definition. -->
-    <script type="text/template" class="category-detail-template">
+    <script type="text/template" class="generic-detail-template">
         <h1 id="title"></h1>
         <p id="description"></p>
+    </script>
+
+    <script type="text/template" class="application-detail-template">
+        <h2>Features</h2>
+        <div id="features" class ="business-object-list feature-list"></div>
+        <h2>Kategorien</h2>
+        <div id="categories" class ="business-object-list category-list"></div>
+    </script>
+
+    <script type="text/template" class="category-detail-template">
         <h2>Unterkategorien</h2>
         <div id="subcategories" class ="business-object-list category-list"></div>
         <h2>Tools</h2>
-        <div id="tools" class ="business-object-list application-list"></div>
+        <div class="tools business-object-list application-list"></div>
+    </script>
+
+    <script type="text/template" class="feature-detail-template">
+        <h2>Tools</h2>
+        <div class="tools business-object-list application-list"></div>
     </script>
     <!-- END: Underscore Template Definition. -->
 
@@ -25,9 +40,13 @@
 </head>
 <body>
     <script src="js/collections/Categories.js"></script>
+    <script src="js/models/Application.js"></script>
     <script src="js/models/Category.js"></script>
+    <script src="js/models/Feature.js"></script>
     <script src="js/views/CategoryList.js"></script>
+    <script src="js/views/ApplicationView.js"></script>
     <script src="js/views/CategoryView.js"></script>
+    <script src="js/views/FeatureView.js"></script>
 
 <nav>
     <ul>
@@ -72,33 +91,42 @@
 
 <script>
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
+        //This is the only hard-coding of the service url. Change it here if necessary.
         options.url = 'http://localhost:8080/toolup' + options.url;
         options.crossDomain = true;
     })
 
+    //<!-- BEGIN: Backbone Router Definition. -->
     var Router = Backbone.Router.extend({
         routes: {
             'application/:id': 'applicationDetails',
             'category/:id': 'categoryDetails',
+            'feature/:id': 'featureDetails',
             '': 'home'
         }
     });
 
     var categoryList = new  CategoryList();
+    var applicationView = new ApplicationView();
     var categoryView = new CategoryView();
+    var featureView = new FeatureView();
 
     var router = new Router();
+    router.on('route:home', function() {
+       categoryList.render();
+    });
     router.on('route:applicationDetails', function(id) {
        applicationView.render(id);
     });
-    router.on('route:home', function() {
-        categoryList.render();
-    });
     router.on('route:categoryDetails', function(id) {
-        categoryView.render(id);
+       categoryView.render(id);
+    });
+    router.on('route:featureDetails', function(id) {
+       featureView.render(id);
     });
 
     Backbone.history.start();
+    //<!-- END: Backbone Router Definition. -->
 </script>
 
 
