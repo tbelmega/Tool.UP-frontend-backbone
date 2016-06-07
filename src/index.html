@@ -9,6 +9,8 @@
     <script src="libs/underscore-min.js"></script>
     <script src="libs/backbone-min.js"></script>
     <script src="js/util.js"></script>
+    <script src="js/menu.js"></script>
+    <script src="js/feature-lookup.js"></script>
 
     <!-- BEGIN: Underscore Template Definition. -->
     <script type="text/template" class="generic-detail-template">
@@ -34,16 +36,50 @@
         <h2>Tools</h2>
         <div class="tools business-object-list application-list"></div>
     </script>
+
+    <script type="text/template" class="feature-lookup-template">
+            <p>Wählen Sie aus der Liste alle Funktionen, die das gesuchte Werkzeug bereitstellen soll.
+                Tool.UP zeigt Ihnen die Werkzeuge, die möglichst viele Ihrer Anforderungen erfüllen.</p>
+
+            <div id="feature-list">
+                <form action="">
+                    <ul id="feature-checkboxes">
+
+                    </ul>
+                </form>
+            </div>
+            <br>
+            <div id='results'>
+                <h2>Die folgenden Tools zeigen die höchste Übereinstimmung mit der gesuchten Feature-Kombination:</h2>
+                <div id="best-applications" class ="business-object-list application-list">
+                    Keine Ergebnisse
+                    <ul />
+                </div>
+
+                <h2>Die folgenden Tools enthalten mindestens eines der gesuchten Features:</h2>
+                <div id="applications" class ="business-object-list application-list">
+                    Keine Ergebnisse
+                    <ul />
+                </div>
+            </div>
+    </script>
     <!-- END: Underscore Template Definition. -->
 
 
 </head>
 <body>
     <script src="js/collections/Categories.js"></script>
+    <script src="js/collections/Features.js"></script>
+    <script src="js/collections/LookupResult.js"></script>
+
     <script src="js/models/Application.js"></script>
     <script src="js/models/Category.js"></script>
     <script src="js/models/Feature.js"></script>
-    <script src="js/views/CategoryList.js"></script>
+
+    <script src="js/views/CategoryTopLevelList.js"></script>
+    <script src="js/views/CategoryDropDownList.js"></script>
+    <script src="js/views/FeatureLookupList.js"></script>
+    <script src="js/views/LookupResultList.js"></script>
     <script src="js/views/ApplicationView.js"></script>
     <script src="js/views/CategoryView.js"></script>
     <script src="js/views/FeatureView.js"></script>
@@ -61,8 +97,8 @@
             </div>
 
         </li>
-        <li><a href='feature-lookup.html'>Feature-Suche</a></li>
-        <li><a href='#'>Impressum</a></li>
+        <li><a href='#lookup/'>Feature-Suche</a></li>
+        <li><a href='#impressum'>Impressum</a></li>
     </ul>
     <div class="full-text-search">
         <form method="get" action="search-result.html" id="live-search">
@@ -102,18 +138,24 @@
             'application/:id': 'applicationDetails',
             'category/:id': 'categoryDetails',
             'feature/:id': 'featureDetails',
+            'lookup/': 'lookup',
             '': 'home'
         }
     });
 
-    var categoryList = new  CategoryList();
+    var toplevelCategoryList = new  CategoryTopLevelList();
+    var dropdownCategoryList = new  CategoryDropDownList();
+
+    var featureLookupList = new FeatureLookupList();
+
+
     var applicationView = new ApplicationView();
     var categoryView = new CategoryView();
     var featureView = new FeatureView();
 
     var router = new Router();
     router.on('route:home', function() {
-       categoryList.render();
+       toplevelCategoryList.render();
     });
     router.on('route:applicationDetails', function(id) {
        applicationView.render(id);
@@ -124,9 +166,15 @@
     router.on('route:featureDetails', function(id) {
        featureView.render(id);
     });
+    router.on('route:lookup', function() {
+        featureLookupList.render();
+    })
 
     Backbone.history.start();
     //<!-- END: Backbone Router Definition. -->
+
+    //Menu is available on any route
+    dropdownCategoryList.render();
 </script>
 
 

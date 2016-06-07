@@ -1,11 +1,11 @@
 /**
  * Created by tbelmega on 07.06.2016.
  */
-var CategoryList = Backbone.View.extend({
+var CategoryTopLevelList = Backbone.View.extend({
     el: '.category-list',
     render: function() {
         var scope = this;
-        var categories = new Categories();
+        var categories = new TopLevelCategories();
         categories.fetch({ //GET top level categories
             success: function(categories) {
                 scope.$el.empty();

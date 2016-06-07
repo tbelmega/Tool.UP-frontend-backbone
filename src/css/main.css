@@ -201,18 +201,19 @@ input[type=button] {
     color: #47476b;
 }
 
-#feature-list {
-
-}
-
-#features {
+#feature-checkboxes {
     list-style: none;
 }
 
-#features li {
+#feature-checkboxes li {
     margin: 5px;
     float: left;
     min-width: 400px;
+}
+
+#results {
+    margin-top: 20px;
+    clear: both;
 }
 
 
