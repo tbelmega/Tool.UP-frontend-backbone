@@ -8,7 +8,7 @@
     <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="libs/underscore-min.js"></script>
     <script src="libs/backbone-min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="js/util.js"></script>
 
     <!-- BEGIN: Underscore Template Definition. -->
     <script type="text/template" class="category-detail-template">
@@ -24,6 +24,11 @@
 
 </head>
 <body>
+    <script src="js/collections/Categories.js"></script>
+    <script src="js/models/Category.js"></script>
+    <script src="js/views/CategoryList.js"></script>
+    <script src="js/views/CategoryView.js"></script>
+
 <nav>
     <ul>
         <li><img src=img/uni-logo.png/></li>
@@ -71,75 +76,9 @@
         options.crossDomain = true;
     })
 
-    var Categories = Backbone.Collection.extend({
-        url: '/category/toplevel'
-    })
-
-    var Category = Backbone.Model.extend({
-        urlRoot: '/category'
-    });
-
-    var CategoryList = Backbone.View.extend({
-        el: '.category-list',
-        render: function() {
-            var scope = this;
-            var categories = new Categories();
-            categories.fetch({ //GET top level categories
-                success: function(categories) {
-                    scope.$el.empty();
-                    for (var item of categories.models) {
-                        var content = '<li>' + createLinkBoxForBO('category', item.attributes) + '</li>';
-                        var list = $('<ul />').html(content);
-                        scope.$el.append(list);
-                    }
-                }
-            })
-        }
-    });
-
-    var CategoryView = Backbone.View.extend({
-        el: '#main-content',
-        render: function (id) {
-            var scope = this;
-            var category = new Category({id: id});
-            category.fetch({
-                success: function (category) {
-                    scope.$el.empty();
-                    var template = _.template(
-                            $( ".category-detail-template" ).html()
-                    );
-                    scope.$el.append(template);
-
-                    var data = category.attributes;
-                    console.log(data);
-
-                    $('#title').text(data['title']);
-                    $('#description').text(data['description']!= null ? data['description'] : "");
-                    $('#subcategories').empty();
-                    $('#tools').empty();
-
-                    for (var item of data['subCategories']) {
-                        item = JSON.parse(item);
-                        var content = '<li>' + createLinkBoxForBO('category', item) + '</li>';
-                        var list = $('<ul />').html(content);
-
-                        $('#subcategories').append(list);
-                    }
-
-                    for (var item of data['applications']) {
-                        item = JSON.parse(item);
-                        var content = '<li>' + createLinkBoxForBO('application', item) + '</li>';
-                        var list = $('<ul />').html(content);
-
-                        $('#tools').append(list);
-                    }
-                }
-            });
-        }
-    })
-
     var Router = Backbone.Router.extend({
         routes: {
+            'application/:id': 'applicationDetails',
             'category/:id': 'categoryDetails',
             '': 'home'
         }
@@ -149,12 +88,15 @@
     var categoryView = new CategoryView();
 
     var router = new Router();
+    router.on('route:applicationDetails', function(id) {
+       applicationView.render(id);
+    });
     router.on('route:home', function() {
         categoryList.render();
     });
     router.on('route:categoryDetails', function(id) {
         categoryView.render(id);
-    })
+    });
 
     Backbone.history.start();
 </script>
