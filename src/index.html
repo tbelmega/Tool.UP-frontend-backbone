@@ -9,6 +9,19 @@
     <script src="libs/underscore-min.js"></script>
     <script src="libs/backbone-min.js"></script>
     <script src="js/main.js"></script>
+
+    <!-- BEGIN: Underscore Template Definition. -->
+    <script type="text/template" class="category-detail-template">
+        <h1 id="title"></h1>
+        <p id="description"></p>
+        <h2>Unterkategorien</h2>
+        <div id="subcategories" class ="business-object-list category-list"></div>
+        <h2>Tools</h2>
+        <div id="tools" class ="business-object-list application-list"></div>
+    </script>
+    <!-- END: Underscore Template Definition. -->
+
+
 </head>
 <body>
 <nav>
@@ -59,7 +72,7 @@
     })
 
     var Categories = Backbone.Collection.extend({
-        url: '/category'
+        url: '/category/toplevel'
     })
 
     var Category = Backbone.Model.extend({
@@ -71,12 +84,11 @@
         render: function() {
             var scope = this;
             var categories = new Categories();
-            categories.fetch({ //GET all the categories //TODO get top level categories
+            categories.fetch({ //GET top level categories
                 success: function(categories) {
                     scope.$el.empty();
                     for (var item of categories.models) {
-                        console.log(item);
-                        var content = '<li>' + createLinkBoxForBO('category', item) + '</li>';
+                        var content = '<li>' + createLinkBoxForBO('category', item.attributes) + '</li>';
                         var list = $('<ul />').html(content);
                         scope.$el.append(list);
                     }
@@ -93,7 +105,34 @@
             category.fetch({
                 success: function (category) {
                     scope.$el.empty();
-                    //TODO
+                    var template = _.template(
+                            $( ".category-detail-template" ).html()
+                    );
+                    scope.$el.append(template);
+
+                    var data = category.attributes;
+                    console.log(data);
+
+                    $('#title').text(data['title']);
+                    $('#description').text(data['description']!= null ? data['description'] : "");
+                    $('#subcategories').empty();
+                    $('#tools').empty();
+
+                    for (var item of data['subCategories']) {
+                        item = JSON.parse(item);
+                        var content = '<li>' + createLinkBoxForBO('category', item) + '</li>';
+                        var list = $('<ul />').html(content);
+
+                        $('#subcategories').append(list);
+                    }
+
+                    for (var item of data['applications']) {
+                        item = JSON.parse(item);
+                        var content = '<li>' + createLinkBoxForBO('application', item) + '</li>';
+                        var list = $('<ul />').html(content);
+
+                        $('#tools').append(list);
+                    }
                 }
             });
         }

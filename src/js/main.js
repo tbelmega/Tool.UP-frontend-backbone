@@ -1,6 +1,6 @@
 function createLinkBoxForBO(type, itemModel) {
-    var id = itemModel.get('id');
-    var title = itemModel.get('title');
+    var id = itemModel.id;
+    var title = itemModel.title;
     return '<a href="#/' + type + '/' + id + '">' + title + '</a>';
 }
 
