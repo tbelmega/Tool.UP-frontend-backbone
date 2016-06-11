@@ -27,7 +27,7 @@ var FeatureView = Backbone.View.extend({
                 //Create links for all related applications of this feature
                 for (var item of data['applications']) {
                     item = JSON.parse(item);
-                    var content = '<li>' + createLinkBoxForBO('application', item) + '</li>';
+                    var content = '<li>' + createLinkBoxForBusinessObject('application', item) + '</li>';
                     var list = $('<ul />').html(content);
                     $('.tools').append(list);
                 }

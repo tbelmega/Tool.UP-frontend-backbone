@@ -25,7 +25,7 @@ var ApplicationView = Backbone.View.extend({
                 //Create links for all related features of this application
                 for (var item of data['features']) {
                     item = JSON.parse(item);
-                    var content = '<li>' + createLinkBoxForBO('feature', item) + '</li>';
+                    var content = '<li>' + createLinkBoxForBusinessObject('feature', item) + '</li>';
                     var list = $('<ul />').html(content);
 
                     $('#features').append(list);
@@ -34,7 +34,7 @@ var ApplicationView = Backbone.View.extend({
                 //Create links for all related categories of this application
                 for (var item of data['categories']) {
                     item = JSON.parse(item);
-                    var content = '<li>' + createLinkBoxForBO('category', item) + '</li>';
+                    var content = '<li>' + createLinkBoxForBusinessObject('category', item) + '</li>';
                     var list = $('<ul />').html(content);
 
                     $('#categories').append(list);

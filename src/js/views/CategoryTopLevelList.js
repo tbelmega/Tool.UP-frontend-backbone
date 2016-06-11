@@ -10,7 +10,7 @@ var CategoryTopLevelList = Backbone.View.extend({
             success: function(categories) {
                 scope.$el.empty();
                 for (var item of categories.models) {
-                    var content = '<li>' + createLinkBoxForBO('category', item.attributes) + '</li>';
+                    var content = '<li>' + createLinkBoxForBusinessObject('category', item.attributes) + '</li>';
                     var list = $('<ul />').html(content);
                     scope.$el.append(list);
                 }

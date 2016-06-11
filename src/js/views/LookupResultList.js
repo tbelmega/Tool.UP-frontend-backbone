@@ -7,7 +7,7 @@ var LookupResultList = Backbone.View.extend({
     render: function (features) {
         var scope = this;
         var result = new LookupResult();
-        console.log(features);
+        
         if (features) {
             result.fetch({ //POST lookup
                 type: 'POST',
@@ -17,7 +17,7 @@ var LookupResultList = Backbone.View.extend({
 
                     for (var item of result.models) {
                         console.log(item);
-                        var content = '<li>' + createLinkBoxForBO('application', item.attributes) + '</li>';
+                        var content = '<li>' + createLinkBoxForBusinessObject('application', item.attributes) + '</li>';
                         var list = $('<ul />').html(content);
                         scope.$el.append(list);
                     }
