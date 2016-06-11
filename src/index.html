@@ -9,8 +9,8 @@
     <script src="libs/underscore-min.js"></script>
     <script src="libs/backbone-min.js"></script>
     <script src="js/util.js"></script>
-    <script src="js/menu.js"></script>
     <script src="js/feature-lookup.js"></script>
+
 
     <!-- BEGIN: Underscore Template Definition. -->
     <script type="text/template" class="generic-detail-template">
@@ -48,57 +48,59 @@
     </script>
 
     <script type="text/template" class="feature-lookup-template">
-            <p>Wählen Sie aus der Liste alle Funktionen, die das gesuchte Werkzeug bereitstellen soll.
-                Tool.UP zeigt Ihnen die Werkzeuge, die möglichst viele Ihrer Anforderungen erfüllen.</p>
+        <p>Wählen Sie aus der Liste alle Funktionen, die das gesuchte Werkzeug bereitstellen soll.
+            Tool.UP zeigt Ihnen die Werkzeuge, die möglichst viele Ihrer Anforderungen erfüllen.</p>
 
-            <div id="feature-list">
-                <form action="">
-                    <ul id="feature-checkboxes">
+        <div id="feature-list">
+            <form action="">
+                <ul id="feature-checkboxes">
 
-                    </ul>
-                </form>
+                </ul>
+            </form>
+        </div>
+        <br>
+        <div id='results'>
+            <h2>Die folgenden Tools zeigen die höchste Übereinstimmung mit der gesuchten Feature-Kombination:</h2>
+            <div id="best-applications" class ="business-object-list application-list">
+                Keine Ergebnisse
+                <ul />
             </div>
-            <br>
-            <div id='results'>
-                <h2>Die folgenden Tools zeigen die höchste Übereinstimmung mit der gesuchten Feature-Kombination:</h2>
-                <div id="best-applications" class ="business-object-list application-list">
-                    Keine Ergebnisse
-                    <ul />
-                </div>
 
-                <h2>Die folgenden Tools enthalten mindestens eines der gesuchten Features:</h2>
-                <div id="applications" class ="business-object-list application-list">
-                    Keine Ergebnisse
-                    <ul />
-                </div>
+            <h2>Die folgenden Tools enthalten mindestens eines der gesuchten Features:</h2>
+            <div id="applications" class ="business-object-list application-list">
+                Keine Ergebnisse
+                <ul />
             </div>
+        </div>
     </script>
     <!-- END: Underscore Template Definition. -->
 
 
 </head>
 <body>
-    <!-- Backbone Collections -->
-    <script src="js/collections/Categories.js"></script>
-    <script src="js/collections/Features.js"></script>
-    <script src="js/collections/LookupResult.js"></script>
-    <script src="js/collections/SearchResult.js"></script>
+<!-- Backbone Collections -->
+<script src="js/collections/Categories.js"></script>
+<script src="js/collections/Features.js"></script>
+<script src="js/collections/LookupResult.js"></script>
+<script src="js/collections/SearchResult.js"></script>
 
-    <!-- Backbone Models -->
-    <script src="js/models/Application.js"></script>
-    <script src="js/models/Category.js"></script>
-    <script src="js/models/Feature.js"></script>
+<!-- Backbone Models -->
+<script src="js/models/Application.js"></script>
+<script src="js/models/Category.js"></script>
+<script src="js/models/Feature.js"></script>
 
-    <!-- Backbone Views -->
-    <script src="js/views/CategoryTopLevelList.js"></script>
-    <script src="js/views/CategoryList.js"></script>
-    <script src="js/views/FeatureLookupList.js"></script>
-    <script src="js/views/LookupResultList.js"></script>
-    <script src="js/views/ApplicationView.js"></script>
-    <script src="js/views/CategoryView.js"></script>
-    <script src="js/views/FeatureView.js"></script>
-    <script src="js/views/SearchResultList.js"></script>
+<!-- Backbone Views -->
+<script src="js/views/CategoryTopLevelList.js"></script>
+<script src="js/views/CategoryList.js"></script>
+<script src="js/views/FeatureLookupList.js"></script>
+<script src="js/views/LookupResultList.js"></script>
+<script src="js/views/ApplicationView.js"></script>
+<script src="js/views/CategoryView.js"></script>
+<script src="js/views/FeatureView.js"></script>
+<script src="js/views/SearchResultList.js"></script>
 
+
+<!-- BEGIN: Navigation Bar -->
 <nav>
     <ul>
         <li><img src=img/uni-logo.png/></li>
@@ -112,8 +114,9 @@
         <a href="#search/" id="search-button">Suche</a>
     </div>
 </nav>
+<!-- END: Navigation Bar -->
 
-
+<!-- BEGIN: Main Content -->
 <div id="main-content">
     <h1>Tool.UP</h1>
     <p>Zeit sparen, Frust vermeiden? Mit den richtigen Software-Werkzeugen können Sie Forschung und Lehre
@@ -129,6 +132,7 @@
     <br/>
     <div class="business-object-list category-list"></div>
 </div>
+<!-- BEGIN: End Content -->
 
 <script>
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
@@ -162,19 +166,19 @@
 
     var router = new Router();
     router.on('route:home', function() {
-       toplevelCategoryList.render();
+        toplevelCategoryList.render();
     });
     router.on('route:applicationDetails', function(id) {
-       applicationView.render(id);
+        applicationView.render(id);
     });
     router.on('route:categoryDetails', function(id) {
-       categoryView.render(id);
+        categoryView.render(id);
     });
     router.on('route:categoriesWithApplications', function() {
         categoryList.render();
     })
     router.on('route:featureDetails', function(id) {
-       featureView.render(id);
+        featureView.render(id);
     });
     router.on('route:lookup', function() {
         featureLookupList.render();

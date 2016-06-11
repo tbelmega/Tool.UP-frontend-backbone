@@ -6,7 +6,7 @@ var LookupResultList = Backbone.View.extend({
 
     render: function (features) {
         var scope = this;
-        var result = new LookupResult();
+        var result = new LookupResult({parse:true});
         
         if (features) {
             result.fetch({ //POST lookup
@@ -14,12 +14,18 @@ var LookupResultList = Backbone.View.extend({
                 data: {features: features},
                 success: function () {
                     scope.$el.empty();
+                    $('#applications').empty();
 
-                    for (var item of result.models) {
-                        console.log(item);
-                        var content = '<li>' + createLinkBoxForBusinessObject('application', item.attributes) + '</li>';
+                    for (var item of result.bestmatches) {
+                        var content = '<li>' + createLinkBoxForBusinessObject('application', item) + '</li>';
                         var list = $('<ul />').html(content);
                         scope.$el.append(list);
+                    }
+
+                    for (var item of result.singleMatches) {
+                        var content = '<li>' + createLinkBoxForBusinessObject('application', item) + '</li>';
+                        var list = $('<ul />').html(content);
+                        $('#applications').append(list);
                     }
                 }
             });
