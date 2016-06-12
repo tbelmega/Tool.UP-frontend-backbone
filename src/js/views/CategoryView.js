@@ -42,6 +42,7 @@ var CategoryView = Backbone.View.extend({
 
                     $('.tools').append(list);
                 }
+                scope.$el.append('<div id="ready"/>');
             }
         });
     }

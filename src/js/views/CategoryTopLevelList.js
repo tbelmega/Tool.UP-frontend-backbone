@@ -14,6 +14,7 @@ var CategoryTopLevelList = Backbone.View.extend({
                     var list = $('<ul />').html(content);
                     scope.$el.append(list);
                 }
+                scope.$el.append('<div id="ready"/>');
             }
         })
     }

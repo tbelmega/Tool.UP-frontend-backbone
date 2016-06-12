@@ -31,6 +31,7 @@ var FeatureView = Backbone.View.extend({
                     var list = $('<ul />').html(content);
                     $('.tools').append(list);
                 }
+                scope.$el.append('<div id="ready"/>');
             }
         });
     }

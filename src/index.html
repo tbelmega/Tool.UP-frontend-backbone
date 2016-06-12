@@ -166,24 +166,31 @@
 
     var router = new Router();
     router.on('route:home', function() {
+        document.title = 'Tool.UP';
         toplevelCategoryList.render();
     });
     router.on('route:applicationDetails', function(id) {
+        document.title = 'Tool.UP Applikation';
         applicationView.render(id);
     });
     router.on('route:categoryDetails', function(id) {
+        document.title = 'Tool.UP Kategorie';
         categoryView.render(id);
     });
     router.on('route:categoriesWithApplications', function() {
+        document.title = 'Tool.UP Kategorien';
         categoryList.render();
     })
     router.on('route:featureDetails', function(id) {
+        document.title = 'Tool.UP Feature';
         featureView.render(id);
     });
     router.on('route:lookup', function() {
+        document.title = 'Tool.UP Feature-Suche';
         featureLookupList.render();
     })
     router.on('route:search', function() {
+        document.title = 'Tool.UP Suche';
         searchResultList.render();
     })
 

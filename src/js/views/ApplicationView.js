@@ -39,6 +39,7 @@ var ApplicationView = Backbone.View.extend({
 
                     $('#categories').append(list);
                 }
+                scope.$el.append('<div id="ready"/>');
             }
         });
     }

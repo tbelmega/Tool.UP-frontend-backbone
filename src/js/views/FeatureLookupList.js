@@ -19,6 +19,7 @@ var FeatureLookupList = Backbone.View.extend({
                         'id="' + item.attributes.id + '" onclick="lookup_selected()">' + " " + item.attributes.title + ' </input></li>';
                     scope.$('#feature-checkboxes').append(content);
                 }
+                scope.$el.append('<div id="ready"/>');
             }
         });
     }

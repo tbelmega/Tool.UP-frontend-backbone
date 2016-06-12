@@ -27,6 +27,7 @@ var LookupResultList = Backbone.View.extend({
                         var list = $('<ul />').html(content);
                         $('#applications').append(list);
                     }
+                    scope.$el.append('<div id="ready"/>');
                 }
             });
         } else {

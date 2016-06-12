@@ -23,6 +23,7 @@ var SearchResultList = Backbone.View.extend({
                         var list = $('<ul />').html(content);
                         scope.$('.application-list').append(list);
                     }
+                    scope.$el.append('<div id="ready"/>');
                 }
             })
         }

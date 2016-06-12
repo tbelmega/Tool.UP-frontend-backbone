@@ -18,6 +18,7 @@ var CategoryList = Backbone.View.extend({
                     var list = $('<ul />').html(content);
                     scope.$('.category-list').append(list);
                 }
+                scope.$el.append('<div id="ready"/>');
             }
         })
     }
