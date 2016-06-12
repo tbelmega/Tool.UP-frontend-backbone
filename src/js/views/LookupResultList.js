@@ -31,6 +31,7 @@ var LookupResultList = Backbone.View.extend({
             });
         } else {
             scope.$el.html("Keine Ergebnisse");
+            $('#applications').html("Keine Ergebnisse");
         }
     }
 });
