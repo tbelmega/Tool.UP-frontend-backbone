@@ -2,6 +2,7 @@ package de.unipotsdam.cs.toolup.frontend;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -10,13 +11,15 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import java.util.List;
+
 import static org.testng.AssertJUnit.assertEquals;
 
 /**
  * Navigation tests check if the user lands on the correct page after taking an action.
  *
  * To identify the pages, this set of navigation tests uses the page title.
- * This set of tests is independent from the application data.
+ * This set of tests is independent of the application data.
  */
 public class NavigationTest {
 
@@ -35,6 +38,7 @@ public class NavigationTest {
     public static final String TITLE_FEATURE_LOOKUP = "Tool.UP Feature-Suche";
     public static final String TITLE_IMPRESSUM = "Tool.UP Impressum";
     public static final String TITLE_CATEGORY = "Tool.UP Kategorie";
+    public static final String TITLE_APPLICATION = "Tool.UP Applikation";
 
     public static final String CSS_SELECTOR_CATEGORY_LINK = ".business-object-list li a";
 
@@ -81,7 +85,7 @@ public class NavigationTest {
     }
 
     @Test(timeOut = 3000)
-    public void testThat_clickOnFeatureSearch_showsSearchPage() {
+    public void testThat_clickOnFeatureSearch_showsLookupPage() {
         //click "Feature-Suche"
         firefoxDriver.findElement(By.linkText(LINK_FEATURE_LOOKUP)).click();
         firefoxWait.until(ExpectedConditions.presenceOfElementLocated(By.id(ID_MAIN_CONTENT)));
@@ -91,7 +95,7 @@ public class NavigationTest {
     }
 
     @Test(timeOut = 3000)
-    public void testThat_clickOnImpressum_showsImpressumPage() {
+    public void testThat_clickOnImpressum_showsImpressumPage() throws Exception {
         //click "Impressum"
         firefoxDriver.findElement(By.linkText(LINK_IMPRESSUM)).click();
         firefoxWait.until(ExpectedConditions.presenceOfElementLocated(By.id(ID_MAIN_CONTENT)));
@@ -101,7 +105,7 @@ public class NavigationTest {
     }
 
     @Test(timeOut = 3000)
-    public void testThat_clickOnATopLevelCategory_showsCategory() {
+    public void testThat_clickOnATopLevelCategory_showsCategoryPage() {
         //wait for the categories to be displayed
         firefoxWait.until(ExpectedConditions.presenceOfElementLocated(By.id(ID_READY)));
 
@@ -114,7 +118,7 @@ public class NavigationTest {
     }
 
     @Test(timeOut = 3000)
-    public void testThat_clickOnACategory_showsCategory() {
+    public void testThat_clickOnACategory_showsCategoryPage() {
         //navigate to Categories page
         firefoxDriver.findElement(By.linkText(LINK_CATEGORIES)).click();
         firefoxWait.until(ExpectedConditions.presenceOfElementLocated(By.id(ID_MAIN_CONTENT)));
@@ -126,5 +130,26 @@ public class NavigationTest {
         //assert
         assertEquals(TITLE_CATEGORY, firefoxDriver.getTitle());
     }
+
+    @Test(timeOut = 3000)
+    public void testThat_clickOnAnApplications_showsApplicationPage() {
+        //navigate to Feature Lookup page
+        firefoxDriver.findElement(By.linkText(LINK_FEATURE_LOOKUP)).click();
+        firefoxWait.until(ExpectedConditions.presenceOfElementLocated(By.id(ID_READY)));
+
+        //click feature checkboxes
+        List<WebElement> checkboxes = firefoxDriver.findElements(By.name("feature-checkboxes"));
+        for (WebElement checkbox: checkboxes) {
+            if (!checkbox.isSelected()) checkbox.click();
+        }
+
+        //click on an application
+        firefoxDriver.findElement(By.cssSelector(".application-list li a")).click();
+
+        //assert
+        assertEquals(TITLE_APPLICATION, firefoxDriver.getTitle());
+    }
+
+
 
 }

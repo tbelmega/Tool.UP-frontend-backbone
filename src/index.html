@@ -107,7 +107,7 @@
         <li><a href='index.html'>Startseite</a></li>
         <li><a href='#categories/'>Kategorien</a></li>
         <li><a href='#lookup/'>Feature-Suche</a></li>
-        <li><a href='#impressum'>Impressum</a></li>
+        <li><a href='#impressum/'>Impressum</a></li>
     </ul>
     <div id="full-text-search">
         <input type="text" id="search-string-input" name="searchString" placeholder="Suche...">
@@ -150,6 +150,7 @@
             'feature/:id': 'featureDetails',
             'lookup/': 'lookup',
             'search/': 'search',
+            'impressum/': 'impressum',
             '': 'home'
         }
     });
@@ -192,6 +193,10 @@
     router.on('route:search', function() {
         document.title = 'Tool.UP Suche';
         searchResultList.render();
+    })
+    router.on('route:impressum', function() {
+        document.title = 'Tool.UP Impressum';
+        //TODO
     })
 
     Backbone.history.start();
