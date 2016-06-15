@@ -11,6 +11,8 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
+import java.awt.*;
+import java.awt.event.KeyEvent;
 import java.util.List;
 
 import static org.testng.AssertJUnit.assertEquals;
@@ -38,8 +40,9 @@ public class NavigationTest {
     public static final String TITLE_FEATURE_LOOKUP = "Tool.UP Feature-Suche";
     public static final String TITLE_IMPRESSUM = "Tool.UP Impressum";
     public static final String TITLE_CATEGORY = "Tool.UP Kategorie";
-    public static final String TITLE_APPLICATION = "Tool.UP Applikation";
+    public static final String TITLE_SEARCH = "Tool.UP Suche";
 
+    public static final String TITLE_APPLICATION = "Tool.UP Applikation";
     public static final String CSS_SELECTOR_CATEGORY_LINK = ".business-object-list li a";
     public static final String CSS_SELECTOR_APPLICATION_LINK = ".application-list li a";
     public static final String NAME_FEATURE_CHECKBOXES = "feature-checkboxes";
@@ -152,6 +155,36 @@ public class NavigationTest {
         assertEquals(TITLE_APPLICATION, firefoxDriver.getTitle());
     }
 
+    @Test(timeOut = 3000)
+    public void testThat_clickOnSearchButton_showsSearchResult() throws Exception {
+        //navigate to Feature Lookup page
+        firefoxDriver.findElement(By.id("search-string-input")).click();
+        typeString("Description");
+        firefoxDriver.findElement(By.linkText("Suche")).click();
+        firefoxWait.until(ExpectedConditions.presenceOfElementLocated(By.id(ID_READY)));
+
+        //assert
+        assertEquals(TITLE_SEARCH, firefoxDriver.getTitle());
+    }
+
+
+
+    private void typeString(String input) throws AWTException {
+        Robot robot = new Robot();
+        for (int i = 0; i < input.length(); i++) {
+            char c = input.charAt(i);
+            if (Character.isUpperCase(c)) {
+                robot.keyPress(KeyEvent.VK_SHIFT);
+            }
+            robot.keyPress(Character.toUpperCase(c));
+            robot.keyRelease(Character.toUpperCase(c));
+
+            if (Character.isUpperCase(c)) {
+                robot.keyRelease(KeyEvent.VK_SHIFT);
+            }
+        }
+        robot.delay(500);
+    }
 
 
 }
