@@ -41,6 +41,8 @@ public class NavigationTest {
     public static final String TITLE_APPLICATION = "Tool.UP Applikation";
 
     public static final String CSS_SELECTOR_CATEGORY_LINK = ".business-object-list li a";
+    public static final String CSS_SELECTOR_APPLICATION_LINK = ".application-list li a";
+    public static final String NAME_FEATURE_CHECKBOXES = "feature-checkboxes";
 
     public static WebDriverWait firefoxWait;
     public static WebDriver firefoxDriver;
@@ -138,13 +140,13 @@ public class NavigationTest {
         firefoxWait.until(ExpectedConditions.presenceOfElementLocated(By.id(ID_READY)));
 
         //click feature checkboxes
-        List<WebElement> checkboxes = firefoxDriver.findElements(By.name("feature-checkboxes"));
+        List<WebElement> checkboxes = firefoxDriver.findElements(By.name(NAME_FEATURE_CHECKBOXES));
         for (WebElement checkbox: checkboxes) {
             if (!checkbox.isSelected()) checkbox.click();
         }
 
         //click on an application
-        firefoxDriver.findElement(By.cssSelector(".application-list li a")).click();
+        firefoxDriver.findElement(By.cssSelector(CSS_SELECTOR_APPLICATION_LINK)).click();
 
         //assert
         assertEquals(TITLE_APPLICATION, firefoxDriver.getTitle());
