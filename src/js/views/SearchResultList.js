@@ -2,15 +2,49 @@
  * Created by tbelmega on 11.06.2016.
  */
 var SearchResultList = Backbone.View.extend({
-    el: '#main-content',
-    render: function() {
+    el: '#main',
+
+    initialize: function(){
+        this.render();
+    },
+
+    events: {
+        'input input': 'search',
+        'click #search-button': 'render'
+    },
+
+    search: function(){
+
         var searchString = $("#search-string-input").val();
 
         if (searchString) {
             var scope = this;
             var applications = new SearchResult();
-            scope.$el.empty();
-            scope.$el.append(_.template(
+            scope.$el.find('#result-set').empty();
+
+            applications.fetch({
+                type: 'POST',
+                data: {'search string': searchString},
+                success: function () {
+                    for (var item of applications.models) {
+                        var content = '<li>' + createLinkBoxForBusinessObject('application', item.attributes) + '</li>';
+                        scope.$el.find('#result-set').append(content);
+                    }
+                }
+            })
+        }
+
+    },
+
+    render: function() {
+
+        var searchString = $("#search-string-input").val();
+
+        if (searchString) {
+            var scope = this;
+            var applications = new SearchResult();
+            scope.$el.find('#main-content').empty();
+            scope.$el.find('#main-content').append(_.template(
                 $(".application-list-template").html()
             ));
 
@@ -23,7 +57,7 @@ var SearchResultList = Backbone.View.extend({
                         var list = $('<ul />').html(content);
                         scope.$('.application-list').append(list);
                     }
-                    scope.$el.append('<div id="ready"/>');
+                    scope.$el.find('#main-content').append('<div id="ready"/>');
                 }
             })
         }

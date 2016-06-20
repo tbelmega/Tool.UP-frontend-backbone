@@ -77,7 +77,7 @@
 
 
 </head>
-<body>
+<body id="main">
 <!-- Backbone Collections -->
 <script src="js/collections/Categories.js"></script>
 <script src="js/collections/Features.js"></script>
@@ -110,8 +110,10 @@
         <li><a href='#impressum/'>Impressum</a></li>
     </ul>
     <div id="full-text-search">
-        <input type="text" id="search-string-input" name="searchString" placeholder="Suche...">
+        <input type="text" id="search-string-input" name="searchString" placeholder="Suche..." />
+        <div id="result-set"></div>
         <a href="#search/" id="search-button">Suche</a>
+
     </div>
 </nav>
 <!-- END: Navigation Bar -->
@@ -137,7 +139,7 @@
 <script>
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
         //This is the only hard-coding of the service url. Change it here if necessary.
-        options.url = 'http://localhost:8080/toolup' + options.url;
+        options.url = 'http://erdmaennchen.soft.cs.uni-potsdam.de:8080/toolup' + options.url;
         options.crossDomain = true;
     })
 
