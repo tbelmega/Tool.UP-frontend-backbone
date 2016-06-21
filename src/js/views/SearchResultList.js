@@ -37,6 +37,7 @@ var SearchResultList = Backbone.View.extend({
     },
 
     render: function() {
+        $('#result-set').empty(); //Close Live Search
 
         var searchString = $("#search-string-input").val();
 

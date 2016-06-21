@@ -111,8 +111,8 @@
     </ul>
     <div id="full-text-search">
         <input type="text" id="search-string-input" name="searchString" placeholder="Suche..." />
-        <div id="result-set"></div>
         <a href="#search/" id="search-button">Suche</a>
+        <div id="result-set"></div>
 
     </div>
 </nav>
@@ -139,7 +139,7 @@
 <script>
     $.ajaxPrefilter( function( options, originalOptions, jqXHR ) {
         //This is the only hard-coding of the service url. Change it here if necessary.
-        options.url = 'http://erdmaennchen.soft.cs.uni-potsdam.de:8080/toolup' + options.url;
+        options.url = 'http://localhost:8080/toolup' + options.url;
         options.crossDomain = true;
     })
 
